@@ -19,7 +19,7 @@ def measure( repeat = 1, timelen = 10 ):
 	for ip in ip_list:
 		client = ssh(ip)
 		command = 'netperf -H '+ dest_ip +' -l ' + "%s" % timelen 
-		for i in range(1, repeat)
+		for i in range(1, repeat):
 			stdin, stdout, stderr = client.exec_command(command)
 			opfile.write(stdout.read())
 		client.close()
