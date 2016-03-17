@@ -20,6 +20,10 @@ def readConfigVMList():
 	cf = readConfig()
 	return cf.get('settings', 'vm_list').split(",")
 
+def readConfigDllName():
+	cf = readConfig()
+	return cf.get('settings', 'DllName')
+
 if __name__ == '__main__':
 	print(readConfigPath())
 	print(readConfigVMList())

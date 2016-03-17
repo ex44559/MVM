@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 
 import os, ctypes
+import readConfig
 
 def info():
-	DllName = './a.so'
+	DllName = './' + readConfig.readConfigDllName()
 	if os.path.exists(DllName) == False:
 		ret = os.popen('make').readlines()
 		print(ret)
