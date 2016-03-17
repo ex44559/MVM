@@ -2,7 +2,7 @@
 
 import libvirt
 import sys
-import os
+import readConfig
 
 def readXml( path ):
 	fp = open(path, 'r')
@@ -28,8 +28,8 @@ def startAllVM( conn, vmlist, path ):
 
 
 if __name__ == '__main__':
-	path = '/home/sunbo/kvm/'
-	vmlist = ['vm200', 'vm201', 'vm202', 'vm203']
+	path = readConfig.readConfigPath()
+	vmlist = readConfig.readConfigVMList()
 	conn = libvirt.open()
 	if conn is None:
 		print('Failed to open connection to the hypervisor')

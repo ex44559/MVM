@@ -2,11 +2,10 @@
 
 import libvirt
 import sys
-import os
-import startAllVM
+import startAllVM, readConfig
 
 if __name__ == '__main__':
-	path = '/home/sunbo/kvm/'
+	path = readConfig.readConfigPath()
 	vmlist = sys.argv[1:]
 	conn = libvirt.open()
 	if conn is None:
