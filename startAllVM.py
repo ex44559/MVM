@@ -4,9 +4,6 @@ import libvirt
 import sys
 import os
 
-path = '/home/sunbo/kvm/'
-vmlist = ['vm200', 'vm201', 'vm202', 'vm203']
-
 def readXml( path ):
 	fp = open(path, 'r')
 	xmldesc = fp.read()
@@ -14,12 +11,7 @@ def readXml( path ):
 
 	return xmldesc
 
-def startAllVM( vmlist, path ):
-	conn = libvirt.open()
-	if conn is None:
-		print('Failed to open connection to the hypervisor')
-		sys.exit(1)
-
+def startAllVM( conn, vmlist, path ):
 	for vm in vmlist:
 		xmlloc = path + vm + '.hvm'
 		try:
@@ -36,5 +28,11 @@ def startAllVM( vmlist, path ):
 
 
 if __name__ == '__main__':
-	
-	startAllVM(vmlist, path)
+	path = '/home/sunbo/kvm/'
+	vmlist = ['vm200', 'vm201', 'vm202', 'vm203']
+	conn = libvirt.open()
+	if conn is None:
+		print('Failed to open connection to the hypervisor')
+		sys.exit(1)
+
+	startAllVM(conn, vmlist, path)
