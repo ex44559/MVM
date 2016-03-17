@@ -14,9 +14,14 @@ def setNuma(conn, vm, NumaPolicy):
 
 
 if __name__ == '__main__':
-	vm = sys.argv[1]
+	if len(sys.argv) != 3:
+		print("two arguments")
+		sys.exit(0)
+
 	#if allow all numa node, set numa_nodeset: 0-n, n is the number of numa nodes
 	NumaPolicy = {'numa_nodeset': '0', 'numa_mode': 0}
+	vm = sys.argv[1]
+	NumaPolicy['numa_nodeset'] = sys.argv[2]
 
 	conn = libvirt.open()
 	if conn is None:
