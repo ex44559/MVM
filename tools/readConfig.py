@@ -24,6 +24,10 @@ def readConfigDllName():
 	cf = readConfig()
 	return cf.get('settings', 'DllName')
 
+def readConfigIpList():
+	cf = readConfig()
+	return cf.get('settings', 'ip_list').split(",")
+
 if __name__ == '__main__':
 	print(readConfigPath())
 	print(readConfigVMList())
