@@ -34,9 +34,9 @@ def measure( repeat = 1, timelen = 10 ):
 def contest(ip, opfile):
 	
 	client = paramiko.SSHClient()
-        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+	client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 
-        client.connect( ip, 22, username='root', password='123456', timeout=20)
+	client.connect( ip, 22, username='root', password='123456', timeout=20)
 	command = 'netperf -H 192.168.10.188'
 	for i in range(0,10):
 		print(ip+":"+command)
@@ -46,24 +46,24 @@ def contest(ip, opfile):
 
 	client.close()
 	opfile.close()
+	print(ip+":done!\n")
 
-def concurrency():
-	ip1 = '192.168.10.200'
-	ip2 = '192.168.10.203'
-
-	opfile1 = open('reslut1.txt', 'w')
-	opfile2 = open('reslut2.txt', 'w')
-	try:
-		thread.start_new_thread(contest,(ip1, opfile1))
-		thread.start_new_thread(contest,(ip2, opfile2))
-	except:
-		print ("Error: unable to start thread")
-	
+def concurrency(ip_list):
+	i = 0
+	for ip in ip_list:
+		i++
+		opfile = open('result'+"%s" % i+'.txt', 'w')
+		try:
+			thread.start_new_thread(contest,(ip, opfile))
+		except:
+			print ("Error: unable to start thread")
+		
 	time.sleep(600)
 
 
 if __name__ == '__main__':
-	concurrency()
+	ip_list = ['192.168.10.200','192.168.10.201','192.168.10.202','192.168.10.203']
+	concurrency(ip_list)
         
         
 
