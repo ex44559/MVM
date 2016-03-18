@@ -4,6 +4,7 @@ import paramiko
 import sys
 import readConfig
 import thread
+import time
 
 def ssh(ip):
 	client = paramiko.SSHClient()
@@ -30,30 +31,35 @@ def measure( repeat = 1, timelen = 10 ):
 	opfile.close()	
 
 
-def contest(conn ,ip, opfile):
-	command = 'netperf -H '+ ip
+def contest(ip, opfile):
+	
+	client = paramiko.SSHClient()
+        client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+
+        client.connect( ip, 22, username='root', password='123456', timeout=20)
+	command = 'netperf -H 192.168.10.188'
 	for i in range(0,10):
 		print(ip+":"+command)
-		stdin, stdout, stderr = conn.exec_command(command) 
+		stdin, stdout, stderr = client.exec_command(command) 
 		opfile.write(ip+ ":" + command + "\n")
 		opfile.write(stdout.read())
 
-	conn.close()
+	client.close()
+	opfile.close()
 
 def concurrency():
 	ip1 = '192.168.10.200'
 	ip2 = '192.168.10.203'
 
-	client1 = ssh(ip1)
-	client2 = ssh(ip2)
 	opfile1 = open('reslut1.txt', 'w')
 	opfile2 = open('reslut2.txt', 'w')
-
 	try:
-		thread.start_new_thread(contest,(client1, ip1, opfile1))
-		thread.start_new_thread(contest,(client2, ip2, opfile2))
-	except Exception, e:
-		print "Error: unable to start thread"
+		thread.start_new_thread(contest,(ip1, opfile1))
+		thread.start_new_thread(contest,(ip2, opfile2))
+	except:
+		print ("Error: unable to start thread")
+	
+	time.sleep(600)
 
 
 if __name__ == '__main__':
