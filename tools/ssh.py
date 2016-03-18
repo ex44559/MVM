@@ -51,7 +51,7 @@ def contest(ip, opfile):
 def concurrency(ip_list):
 	i = 0
 	for ip in ip_list:
-		i++
+		i+=1
 		opfile = open('result'+"%s" % i+'.txt', 'w')
 		try:
 			thread.start_new_thread(contest,(ip, opfile))
