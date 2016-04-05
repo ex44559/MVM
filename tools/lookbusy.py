@@ -25,7 +25,7 @@ def main(ip_list, kill = False):
 			i += 1
 			
 		if i == 0:
-			lookbusy = "lookbusy -c 50"
+			lookbusy = "lookbusy -c 50 -m 2048mb"
 			stdin, stdout, stderr = client.exec_command(lookbusy)
 			print(ip + ":start lookbusy")
 
