@@ -44,6 +44,10 @@ def main(ip_list):
 			print("cannot start thread %d" % r)
 		r += 1
 
+	if plist != []:
+		for pro in plist:
+			pro.join()
+
 if __name__ == '__main__':
 	ip_list = header.ip_list
 	main(ip_list)
