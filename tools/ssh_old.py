@@ -7,6 +7,7 @@ import sys
 import readConfig
 import thread
 import time
+import header
 
 def ssh(ip):
 	client = paramiko.SSHClient()
@@ -64,9 +65,7 @@ def concurrency(ip_list):
 
 
 if __name__ == '__main__':
-	ip_list = ['192.168.10.200','192.168.10.201','192.168.10.202','192.168.10.203','192.168.10.204'\
-		,'192.168.10.205','192.168.10.206','192.168.10.207','192.168.10.208','192.168.10.209'\
-		,'192.168.10.210','192.168.10.211']
+	ip_list = header.ip_list
 	concurrency(ip_list)
         
         

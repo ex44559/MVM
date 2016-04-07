@@ -3,6 +3,7 @@
 import os
 import paramiko
 from multiprocessing import Process
+import header
 
 def netperf(opfile, ip):
 	client = paramiko.SSHClient()
@@ -22,9 +23,10 @@ def netperf(opfile, ip):
 		print(ip + ":start netserver")
 
 	for i in range(0, 10):
+		command = "netperf -H " + ip
 		print("to: " + ip + ":" + command)
 		opfile.write(ip+ ":" + command + "\n")
-		opfile.write(os.popen("netperf -H " + ip).read())
+		opfile.write(os.popen(command).read())
 
 	opfile.close()
 	client.close()
@@ -43,9 +45,5 @@ def main(ip_list):
 		r += 1
 
 if __name__ == '__main__':
-	ip_list = ['192.168.10.200','192.168.10.201','192.168.10.202','192.168.10.203','192.168.10.204'\
-	,'192.168.10.205','192.168.10.206','192.168.10.207','192.168.10.208','192.168.10.209'\
-	,'192.168.10.210','192.168.10.211','192.168.10.212','192.168.10.213','192.168.10.214',\
-	 '192.168.10.215','192.168.10.216'\
-	,'192.168.10.217','192.168.10.218','192.168.10.219']
+	ip_list = header.ip_list
 	main(ip_list)
