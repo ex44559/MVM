@@ -4,26 +4,34 @@ import os
 import paramiko
 
 def main(ip_list):
-	
+	r = 0
 	for ip in ip_list:
 		client = paramiko.SSHClient()
 		client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 		client.connect( ip, 22, username='root', password='123456', timeout=20)
-		
-		sftp = client.open_sftp()
-		remote_flie = sftp.file("/home/sunbo/lookbusy-1.4.tar.gz", "wb")
-		remote_flie.set_pipelined(True)
-		tar = open("lookbusy-1.4.tar.gz", "r")
-		remote_flie.write(tar.read())
-		sftp.close()
-		tar.close()
 
-		make = "cd /home/sunbo/ && tar xzf lookbusy-1.4.tar.gz &&\
-			cd lookbusy-1.4 && ./configure && make && make install"
-		stdin, stdout, stderr = client.exec_command(make)
-		print(stdout.read())
+		command = "ps -e | grep netserver && systemctl stop firewalld"
+		stdin, stdout, stderr = client.exec_command(command)
+
+		i = 0
+		for line in stdout.readlines():
+			i += 1
+
+		if i == 0:
+			netserver = "netserver"
+			stdin, stdout, stderr = client.exec_command(netserver)
+			print(ip + ":start netserver")
 
 		client.close()
+
+		opfile = open('result'+"%s" % r+'.txt', 'w')
+		print("to ip %s: running netperf\n" % ip)
+		for i in range(0, 10):
+			opfile.write(os.popen("netperf -H " + ip).read())
+
+		opfile.close()
+
+		r += 1
 
 if __name__ == '__main__':
 	ip_list = ['192.168.10.200','192.168.10.201','192.168.10.202','192.168.10.203','192.168.10.204'\
