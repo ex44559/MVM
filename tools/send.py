@@ -21,8 +21,9 @@ def netperf(opfile, ip):
 		stdin, stdout, stderr = client.exec_command(netserver)
 		print(ip + ":start netserver")
 
-	print("to ip %s: running netperf\n" % ip)
 	for i in range(0, 10):
+		print("to: " + ip + ":" + command)
+		opfile.write(ip+ ":" + command + "\n")
 		opfile.write(os.popen("netperf -H " + ip).read())
 
 	opfile.close()
