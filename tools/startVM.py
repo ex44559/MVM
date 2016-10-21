@@ -12,4 +12,4 @@ if __name__ == '__main__':
 		print('Failed to open connection to the hypervisor')
 		sys.exit(1)
 
-	startAllVM.startAllVM(conn, vmlist, path)
+	startAllVM.startlist(conn, vmlist, path)
