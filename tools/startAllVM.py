@@ -11,18 +11,24 @@ def readXml( path ):
 
 	return xmldesc
 
-def startAllVM( conn, vmlist, path ):
+def start( vm ):
+	xmlloc = path + vm + '.hvm'
+	xmldesc = readXml(xmlloc)
+	dom = conn.createLinux(xmldesc, 0)
+	if dom is None:
+		print("create vm %s failed" % vm)
+	else:
+		print("create vm %s sucess" % vm)
+
+def startlist( conn, vmlist, path ):
 	for vm in vmlist:
-		xmlloc = path + vm + '.hvm'
 		try:
 			dom = conn.lookupByName(vm)
 		except:
-			xmldesc = readXml(xmlloc)
-			dom = conn.createLinux(xmldesc, 0)
-			if dom is None:
-				print("create vm %s failed" % vm)
-			else:
-				print("create vm %s sucess" % vm)
+			start(vm)
+		
+		if dom == None:
+			start(vm)
 		else:
 			print("vm %s is running" % vm)
 
@@ -35,4 +41,4 @@ if __name__ == '__main__':
 		print('Failed to open connection to the hypervisor')
 		sys.exit(1)
 
-	startAllVM(conn, vmlist, path)
+	startlist(conn, vmlist, path)
