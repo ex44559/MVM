@@ -26,7 +26,7 @@ def startlist( conn, vmlist, path ):
 			dom = conn.lookupByName(vm)
 		except:
 			start(vm)
-			return
+			continue
 		
 		if dom == None:
 			start(vm)
