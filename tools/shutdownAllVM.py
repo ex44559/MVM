@@ -10,6 +10,10 @@ def shutdownAllVM():
 		print('Failed to open connection to the hypervisor')
 		sys.exit(1)
 
+	if conn.listDomainsID() is None:
+		print("None of vms is running\n")
+		return
+
 	for vm in conn.listDomainsID():
 		try:
 			dom = conn.lookupByID(vm)
